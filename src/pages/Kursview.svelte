@@ -5,7 +5,7 @@
 <h2>Eigenschaften</h2>
 <p>Gruppengrösse: 2</p>
 <p>Homogen</p>
-
+pü$
 
  
  <h2>Gruppe 1</h2>
