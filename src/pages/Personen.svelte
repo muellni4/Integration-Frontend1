@@ -6,7 +6,7 @@
 <div class="container text-center">
     <div class="row">
       <div class="col" align="left">
-        <h1>Teilnehmer</h1>
+        <h1>Personens</h1>
       </div>
       <div class="col" align="right">
         <a class="btn btn-primary btn-lg" href="http://localhost:5000/#/addperson" role="button">Add</a>
