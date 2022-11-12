@@ -1,7 +1,6 @@
 <script>
   import axios from "axios";
   import { onMount } from "svelte";
-  import { pop } from "svelte-spa-router";
   import Swal from "sweetalert2";
 
   export let grouprequirementId;
@@ -122,9 +121,9 @@
     axios
       .post("http://localhost:8080/grouprequirements/", groupRequirement)
       .then((response) => {
-        let id = response.data.id;
-        Swal.fire("Section created with id " + id);
-        contentId = id;
+        let id = response.data;
+        Swal.fire(`Section created with id ${id}`);
+        groupRequirementId = id;
       });
   }
 
