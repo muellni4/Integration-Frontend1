@@ -51,9 +51,13 @@
         createPerson();
       }
     }
+
+    function validEmail (value) {
+        return (value && value.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/));
+    }
   
     function createPerson() {
-      if (person.name == "" || person.zhawId < 1 || person.email == "") {
+      if (person.name == "" || person.zhawId < 1 || !(validEmail(person.email))) {
         Swal.fire("Bitte Formular mit korrekten Werten ausfüllen");
         return;
       }
