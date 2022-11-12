@@ -115,28 +115,28 @@
 
   function createGroupRequirement() {
     if (groupRequirement.name == "" || groupRequirement.groupSize <= 0) {
-      Swal.fire("Please fill out the form correctly");
+      Swal.fire("Bitte Formular mit korrekten Werten ausfüllen");
       return;
     }
     axios
       .post("http://localhost:8080/grouprequirements/", groupRequirement)
       .then((response) => {
         let id = response.data;
-        Swal.fire(`Section created with id ${id}`);
+        Swal.fire(`Anforderungskatalog erstellt (Id: ${id})`);
         groupRequirementId = id;
       });
   }
 
   function updateGroupRequirement() {
     if (groupRequirement.name == "" || groupRequirement.groupSize <= 0) {
-      Swal.fire("Please fill out the form correctly");
+      Swal.fire("Bitte Formular mit korrekten Werten ausfüllen");
       return;
     }
     axios
-      .put("http://localhost:8080/grouprequirements/", content)
+      .put("http://localhost:8080/grouprequirements/", groupRequirement)
       .then((response) => {
         let id = response.data;
-        Swal.fire(`Section (${id}) updated`);
+        Swal.fire(`Anforderungskatalog (${id}) aktualisiert`);
       });
   }
 </script>
@@ -148,11 +148,11 @@
 <form>
 
  <div class="mb-3">
-  <label for="kursname" class="form-label">Name</label>
+  <label for="groupRequirementName" class="form-label">Name</label>
   <input type="text" class="form-control" bind:value={groupRequirement.name}>
 </div>
 <div class="mb-3">
-  <label for="gruppensize" class="form-label">Gruppengrösse</label>
+  <label for="groupsize" class="form-label">Gruppengrösse</label>
   <input type="number" class="form-control" bind:value={groupRequirement.groupSize}>
 </div>
 
@@ -198,11 +198,11 @@
 <h6>Gruppeneinteilung ausgeglichen (Heterogen) oder unausgeglichen (Homogen)</h6>
 <div class="form-check">
   <input class="form-check-input" type="radio" name="flexRadioDefault" value={1} on:bind={_generateEqualGroups} on:change={handleRadioChange} checked>
-  <label class="form-check-label" for="flexRadioDefault2">Heterogen</label>
+  <label class="form-check-label" for="flexRadioHeterogen">Heterogen</label>
 </div>
 <div class="form-check">
   <input class="form-check-input" type="radio" name="flexRadioDefault" value={0} on:bind={_generateEqualGroups} on:change={handleRadioChange} >
-  <label class="form-check-label" for="flexRadioDefault1">Homogen</label>
+  <label class="form-check-label" for="flexRadioHomogen">Homogen</label>
 </div>
 <br>
 <button on:click={saveGroupRequirement} class="btn btn-primary">
