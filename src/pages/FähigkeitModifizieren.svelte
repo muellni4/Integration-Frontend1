@@ -34,7 +34,7 @@
       axios
         .get(`http://localhost:8080/skills/${skillId}`)
         .then((response) => {
-          response.data;
+          skill = response.data;
           editMode = true;
         })
         .catch(() => {
