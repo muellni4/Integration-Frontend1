@@ -15,8 +15,8 @@
     name: "",
     generateEqualGroups: true,
     groupSize: 3,
-    courses: [],
-    requirementWeights: []
+    courseIds: [],
+    weightRequests: []
   };
 
   let defaultRequirementWeight = {
@@ -67,26 +67,38 @@
       skills = response.data;
     });
   }
-
-  function createRequirementWeight() {
+  
+  function addNewRequirementWeight() {
     if(newRequirementWeight.skillId < 1 || newRequirementWeight.weight < 1) {
       Swal.fire("Bitte reguläre Werte für Skills und deren Gewichtung wählen");
       return;
     }
-    axios
-      .post(`http://localhost:8080/grouprequirements/${grouprequirementId}/weights`, newRequirementWeight)
-      .then((response) => {
-        newRequirementWeight = response.data;
-        groupRequirement.requirementWeights = [...groupRequirement.requirementWeights, newRequirementWeight];
-        newRequirementWeight = defaultRequirementWeight;
-      });
+    groupRequirement.weightRequests = [...groupRequirement.weightRequests, newRequirementWeight];
+    newRequirementWeight = defaultRequirementWeight;
   }
 
   function getGroupRequirementById() {
     axios
       .get(`http://localhost:8080/grouprequirements/${grouprequirementId}`)
       .then((response) => {
-        groupRequirement = response.data;
+        let reqWeight = defaultRequirementWeight;
+
+        groupRequirement.id = response.data.id;
+        groupRequirement.name = response.data.name;
+        groupRequirement.groupSize = response.data.groupSize;
+        groupRequirement.generateEqualGroups = response.data.generateEqualGroups;
+        groupRequirement.weightRequests = response.data.requirementWeights;
+        groupRequirement.courseIds = response.data.courses;
+        groupRequirement.weightRequests = [];
+        //Foreach is required so that object skill and groupRequirement can be transfered to skillId and groupRequirementId for postobject
+        response.data.requirementWeights.forEach(reqWeightResp => {
+          reqWeight.id = reqWeightResp.id;
+          reqWeight.groupRequirementId = reqWeightResp.groupRequirement;
+          reqWeight.skillId = reqWeightResp.skill;
+          reqWeight.weight = reqWeightResp.weight;
+          //Fill List with values
+          groupRequirement.weightRequests = [...groupRequirement.weightRequests, weight];
+        });
         editMode = true;
       })
       .catch(() => {
@@ -177,7 +189,7 @@
           <input type="text" class="form-control" bind:value={newRequirementWeight.weight}>
         </td>
       </tr>
-      <button on:click={saveGroupRequirement} class="btn btn-primary">
+      <button on:click={addNewRequirementWeight} class="btn btn-primary">
         Hinzufügen
       </button>
     </tbody>
