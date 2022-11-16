@@ -1,3 +1,69 @@
+<script>
+  import axios from "axios";
+  import { onMount } from "svelte";
+  import Swal from "sweetalert2";
+
+  export let params = {};
+
+  let personId;
+
+  let skillRatings = [];
+
+  let defaultSkillRating = {
+    id: -1,
+    rating: 1,
+    skill: null,
+  };
+
+  $: {
+    personId = params.id;
+    getSkillRatings();
+    getSkillRequiredToBeRated();
+  }
+
+  onMount(() => {
+    getSkillRatings();
+    getSkillRequiredToBeRated();
+  });
+
+  function getSkillRatings() {
+    axios
+      .get(`http://localhost:8080/persons/${personId}/skills`)
+      .then((response) => {
+        skillRatings = [];
+        let skillRatingInfo = defaultSkillRating;
+        response.data.forEach((skillRating) => {
+          skillRatingInfo.id = skillRating.id;
+          skillRatingInfo.rating = skillRating.rating;
+          skillRatingInfo.skill = skillRating.skill;
+          skillRatings = [...skillRatings, skillRatingInfo];
+        });
+      });
+  }
+
+  function getSkillRequiredToBeRated() {
+    axios
+      .get(`http://localhost:8080/persons/${personId}/skills/rating`)
+      .then((response) => {
+        let newRating = defaultSkillRating;
+        response.data.forEach((skill) => {
+          newRating.skill = skill;
+          skillRatings = [...skillRatings, newRating];
+        });
+      });
+  }
+
+  function updateSkillRating() {
+    axios
+      .put(`http://localhost:8080/persons/${personId}/skills/`)
+      .then((response) => {
+        Swal.fire(`Bewertung wurde aktualisiert`);
+        getSkillRatings();
+        getSkillRequiredToBeRated();
+      });
+  }
+</script>
+
 <h1>Fähigkeitsbewertung</h1>
 
 <table class="table">
@@ -10,80 +76,33 @@
     </tr>
   </thead>
   <tbody>
-    <tr>
-      <th scope="row">1</th>
-      <td colspan="1">Coding</td>
-      <td colspan="1"
-        ><a
-          class="btn btn-primary btn"
-          href="http://localhost:5000/#/faehigkeiten"
-          role="button">Beschreibung</a
-        ></td
-      >
-      <td align="right" width="100"
-        ><input class="form-control" type="text" placeholder="" />
-      </td>
-    </tr>
-    <tr>
-      <th scope="row">2</th>
-      <td colspan="1">UI/UX-Design</td>
-      <td colspan="1"
-        ><a
-          class="btn btn-primary btn"
-          href="http://localhost:5000/#/faehigkeiten"
-          role="button">Beschreibung</a
-        ></td
-      >
-      <td align="right" width="100"
-        ><input class="form-control" type="text" placeholder="" />
-      </td>
-    </tr>
-    <tr>
-      <th scope="row">3</th>
-      <td colspan="1">SQL</td>
-      <td colspan="1"
-        ><a
-          class="btn btn-primary btn"
-          href="http://localhost:5000/#/faehigkeiten"
-          role="button">Beschreibung</a
-        ></td
-      >
-      <td align="right" width="100"
-        ><input class="form-control" type="text" placeholder="" />
-      </td>
-    </tr>
-    <tr>
-      <th scope="row">4</th>
-      <td colspan="1">CRM</td>
-      <td colspan="1"
-        ><a
-          class="btn btn-primary btn"
-          href="http://localhost:5000/#/faehigkeiten"
-          role="button">Beschreibung</a
-        ></td
-      >
-      <td align="right" width="100"
-        ><input class="form-control" type="text" placeholder="" />
-      </td>
-    </tr>
-    <tr>
-      <th scope="row">5</th>
-      <td colspan="1">Linux</td>
-      <td colspan="1"
-        ><a
-          class="btn btn-primary btn"
-          href="http://localhost:5000/#/faehigkeiten"
-          role="button">Beschreibung</a
-        ></td
-      >
-      <td align="right" width="100"
-        ><input class="form-control" type="text" placeholder="" />
-      </td>
-    </tr>
+    {#each skillRatings as skillRating}
+      <tr>
+        <th scope="row">{skillRating.id}</th>
+        <td colspan="1">{skillRating.skill.name}</td>
+        <td colspan="1">{skillRating.skill.description} </td>
+        <td align="right" width="100">
+          <label>
+            <input
+              readonly={true}
+              type="text"
+              bind:value={skillRating.rating}
+              min="1"
+              max="5"
+            />
+            <input
+              type="range"
+              bind:value={skillRating.rating}
+              min="1"
+              max="5"
+            />
+          </label>
+          />
+        </td>
+      </tr>
+    {/each}
   </tbody>
 </table>
-<a
-  class="btn btn-primary btn"
-  href="http://localhost:5000/#/faehigkeitsbewertung"
-  role="button">Speichern</a
->
+<button on:click={updateSkillRating} class="btn btn-primary">
+  Speichern
+</button>
