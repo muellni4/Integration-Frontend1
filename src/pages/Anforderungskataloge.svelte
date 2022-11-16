@@ -3,27 +3,27 @@
   import { onMount } from "svelte";
   import Swal from "sweetalert2";
 
-  let skills = [];
+  let groupRequirements = [];
 
   onMount(() => {
-    getSkills();
+    getGroupRequirements();
   });
 
-  function getSkills() {
-    axios.get("http://localhost:8080/skills").then((response) => {
-      skills = response.data;
+  function getGroupRequirements() {
+    axios.get("http://localhost:8080/grouprequirements").then((response) => {
+      groupRequirements = response.data;
     });
   }
 </script>
 
 <div class="container mt-3 custom-back">
-  <h1 class="mt-3">Fähigkeiten</h1>
+  <h1 class="mt-3">Anforderungskatalog</h1>
   <a
-    href="#/AddSkill"
+    href="#/CreateGroupRequirement"
     title="Create"
     role="button"
     class="btn btn-success btn-sm rounded-2 mb-3"
-    ><i class="bi bi-plus-square align-self-center" />Fähigkeit erstellen</a
+    ><i class="bi bi-plus-square align-self-center" />Neuen erstellen</a
   >
   <table class="table m-0 table-hover">
     <thead class="table-dark">
@@ -34,23 +34,30 @@
       </tr>
     </thead>
     <tbody>
-      {#each skills as skill}
+      {#each groupRequirements as groupRequirement}
         <tr>
           <td>
-            {skill.id}
+            {groupRequirement.id}
           </td>
           <td>
-            {skill.name}
+            {groupRequirement.name}
           </td>
           <td>
-            {skill.description}
+            {groupRequirement.groupSize}
+          </td>
+          <td>
+            {#if groupRequirement.generateEqualGroups}
+              Heterogen
+            {:else}
+              Homogen
+            {/if}
           </td>
           <td>
             <ul class="list-inline-item">
               <li class="list-inline-item">
                 <a
                   class="btn btn-primary btn-sm rounded-2"
-                  href={"#/FaehigkeitModifizieren/" + skill.id}
+                  href={"#/AnforderungskatalogModifizieren/" + groupRequirement.id}
                   role="button"
                   title="Edit"
                 >

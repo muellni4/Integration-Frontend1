@@ -6,18 +6,14 @@
   let personen = [];
 
   onMount(() => {
-    getRootContents();
+    getPersons();
   });
 
-  function getRootContents() {
-    axios
-      .get("http://localhost:8080/persons")
-      .then((response) => {
-        personen = response.data;
-      });
+  function getPersons() {
+    axios.get("http://localhost:8080/persons").then((response) => {
+      personen = response.data;
+    });
   }
-
-  
 </script>
 
 <div class="container mt-3 custom-back">
@@ -35,7 +31,7 @@
         <th scope="col">ID</th>
         <th scope="col">Name</th>
         <th scope="col">E-Mail</th>
-        <th scope="col">Zhaw-ID</th> 
+        <th scope="col">Zhaw-ID</th>
       </tr>
     </thead>
     <tbody>
@@ -64,6 +60,7 @@
                 >
                   <i class="bi bi-info-square" />
                 </a>
+              </li>
             </ul>
           </td>
         </tr>

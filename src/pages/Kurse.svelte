@@ -6,18 +6,14 @@
   let courses = [];
 
   onMount(() => {
-    getRootContents();
+    getCourses();
   });
 
-  function getRootContents() {
-    axios
-      .get("http://localhost:8080/courses")
-      .then((response) => {
-        courses = response.data;
-      });
+  function getCourses() {
+    axios.get("http://localhost:8080/courses").then((response) => {
+      courses = response.data;
+    });
   }
-
-  
 </script>
 
 <div class="container mt-3 custom-back">
@@ -34,7 +30,7 @@
       <tr>
         <th scope="col">ID</th>
         <th scope="col">Name</th>
-        <th scope="col">Kursaktiv</th>
+        <th scope="col">Kurs aktiv?</th>
       </tr>
     </thead>
     <tbody>
@@ -47,7 +43,7 @@
             {cours.name}
           </td>
           <td>
-            {cours.courseactive}
+            {cours.courseActive}
           </td>
           <td>
             <ul class="list-inline-item">
@@ -60,6 +56,7 @@
                 >
                   <i class="bi bi-info-square" />
                 </a>
+              </li>
             </ul>
           </td>
         </tr>
