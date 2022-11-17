@@ -21,6 +21,7 @@
   "dependencies": {
     "@rollup/plugin-json": "^5.0.1",
     "axios": "^0.21.4",
+    "bootstrap-icons": "^1.10.2",
     "sirv-cli": "^1.0.0",
     "svelte-spa-router": "^3.1.0",
     "sweetalert2": "^11.6.8"

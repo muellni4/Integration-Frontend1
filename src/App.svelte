@@ -10,7 +10,7 @@
 <main>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#/startseite">Kurse</a>
+      <a class="navbar-brand" href="#/Kurse">Kurse</a>
       <button
         class="navbar-toggler"
         type="button"

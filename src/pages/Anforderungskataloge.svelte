@@ -52,7 +52,8 @@
       <tr>
         <th scope="col">ID</th>
         <th scope="col">Name</th>
-        <th scope="col">Beschreibung</th>
+        <th scope="col">Details</th>
+        <th scope="col" />
       </tr>
     </thead>
     <tbody>
@@ -65,14 +66,14 @@
             {groupRequirement.name}
           </td>
           <td>
-            {groupRequirement.groupSize}
-          </td>
-          <td>
-            {#if groupRequirement.generateEqualGroups}
-              Heterogen
-            {:else}
-              Homogen
-            {/if}
+            <p>Gruppengrösse: {groupRequirement.groupSize} </p>
+            <p>
+              Einteilungsart: {#if groupRequirement.generateEqualGroups}
+                Heterogen
+              {:else}
+                Homogen
+              {/if}
+            </p>
           </td>
           <td>
             <ul class="list-inline-item">
