@@ -88,7 +88,7 @@
 
   <button on:click={saveSkill} class="btn btn-primary"> Speichern </button>
 
-  <a class="btn btn-danger" href={`#/Faehigkeiten/`} role="button"> Zurück </a>
+  <a class="btn btn-danger" href={`?#/Faehigkeiten/`} role="button"> Zurück </a>
 </form>
 <style>
 	textarea { width: 100%; height: 40vh; min-height: 100px;}

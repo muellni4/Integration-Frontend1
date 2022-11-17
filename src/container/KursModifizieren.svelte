@@ -64,6 +64,7 @@
       .get(`http://localhost:8080/courses/${params.id}/persons`)
       .then((response) => {
         courseAttendees = response.data;
+        allPersons = allPersons.filter(x => !courseAttendees.includes(x));
       });
   }
 
@@ -86,6 +87,19 @@
   function addAttendee() {
     newAttendees = [...newAttendees, selectedPerson];
     selectedPerson = -1;
+  }
+
+  function removeNewAttendee(newAttendee) {
+    newAttendees = newAttendees.filter((value) => value.id !== newAttendee.id);
+  }
+
+  function removeAttendeeFromCourse(attendee) {
+    courseAttendees = courseAttendees.filter(
+      (value) => value.id !== attendee.id
+    );
+    axios.put(
+      `http://localhost:8080/courses/${params.id}/persons/${id}/remove`
+    );
   }
 
   function saveCourse() {
@@ -180,6 +194,7 @@
             <th scope="col">Name</th>
             <th scope="col">E-Mail</th>
             <th scope="col">Zhaw-ID</th>
+            <th scope="col" />
           </tr>
         </thead>
         <tbody>
@@ -197,6 +212,30 @@
               <td>
                 {attendee.zhawId}
               </td>
+              <td align="right">
+                <ul class="list-inline-item">
+                  <li class="list-inline-item">
+                    <a
+                      class="btn btn-primary btn-sm rounded-2"
+                      href={`?#/Personen/${attendee.id}/Edit`}
+                      role="button"
+                      title="Edit"
+                    >
+                      <i class="bi bi-pencil-square" />
+                    </a>
+                  </li>
+                  <li class="list-inline-item">
+                    <button
+                      class="btn btn-danger btn-sm rounded-2"
+                      type="button"
+                      on:click={removeAttendeeFromCourse(attendee)}
+                      title="Delete"
+                    >
+                      <i class="bi bi-dash-square" />
+                    </button>
+                  </li>
+                </ul>
+              </td>
             </tr>
           {/each}
           {#each newAttendees as newAttendee}
@@ -212,6 +251,30 @@
               </td>
               <td>
                 {newAttendee.zhawId}
+              </td>
+              <td align="right">
+                <ul class="list-inline-item">
+                  <li class="list-inline-item">
+                    <a
+                      class="btn btn-primary btn-sm rounded-2"
+                      href={`?#/Personen/${newAttendee.id}/Edit`}
+                      role="button"
+                      title="Edit"
+                    >
+                      <i class="bi bi-pencil-square" />
+                    </a>
+                  </li>
+                  <li class="list-inline-item">
+                    <button
+                      class="btn btn-danger btn-sm rounded-2"
+                      type="button"
+                      on:click={removeNewAttendee(newAttendee)}
+                      title="Delete"
+                    >
+                      <i class="bi bi-dash-square" />
+                    </button>
+                  </li>
+                </ul>
               </td>
             </tr>
           {/each}
@@ -247,8 +310,6 @@
   </div>
   <div class="mb-3">
     <button on:click={saveCourse} class="btn btn-primary"> Speichern </button>
-    <a class="btn btn-danger" href={`#/Kurse/`} role="button">
-      Zurück
-    </a>
+    <a class="btn btn-danger" href={`#/Kurse/`} role="button"> Zurück </a>
   </div>
 </form>

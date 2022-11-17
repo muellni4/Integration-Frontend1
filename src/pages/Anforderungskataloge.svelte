@@ -80,7 +80,7 @@
               <li class="list-inline-item">
                 <a
                   class="btn btn-primary btn-sm rounded-2"
-                  href={`#/Anforderungskataloge/${groupRequirement.id}/Edit`}
+                  href={`?#/Anforderungskataloge/${groupRequirement.id}/Edit`}
                   role="button"
                   title="Edit"
                 >

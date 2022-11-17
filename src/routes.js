@@ -2,6 +2,7 @@
 import Startseite from "./pages/Startseite.svelte";
 
 import Anforderungskataloge from "./pages/Anforderungskataloge.svelte";
+import AnforderungskatalogModifizieren from "./container/AnforderungskatalogModifizieren.svelte";
 
 import Personen from "./pages/Personen.svelte";
 import PersonModifizieren from "./container/PersonModifizieren.svelte";
@@ -13,7 +14,6 @@ import FaehigkeitModifizieren from "./container/FaehigkeitModifizieren.svelte";
 
 import Kurse from "./pages/Kurse.svelte";
 import KursModifizieren from "./container/KursModifizieren.svelte";
-import AnforderungskatalogModifizieren from "./container/AnforderungskatalogModifizieren.svelte";
 
 // Export the route definition object
 export default {
@@ -23,7 +23,7 @@ export default {
 
   "/Anforderungskataloge": Anforderungskataloge,
   "/Anforderungskataloge/Neu": AnforderungskatalogModifizieren,
-  "/Anforderungskataloge/Edit": AnforderungskatalogModifizieren,
+  "/Anforderungskataloge/:id/Edit": AnforderungskatalogModifizieren,
 
   "/Personen": Personen,
   "/Personen/Neu": PersonModifizieren,

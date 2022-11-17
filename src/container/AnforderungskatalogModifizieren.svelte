@@ -7,6 +7,11 @@
 
   let editMode = true;
 
+  let groupModi = [
+    { name: "Heterogen", value: true },
+    { name: "Homogen", value: false },
+  ];
+
   let skills = [];
 
   let groupRequirement = {
@@ -21,37 +26,28 @@
   let defaultRequirementWeight = {
     id: -1,
     groupRequirementId: -1,
-    skillId: -1,
+    skill: null,
     weight: 1,
   };
 
   let newRequirementWeight = {
     id: -1,
     groupRequirementId: -1,
-    skillId: -1,
+    skill: null,
     weight: 1,
   };
 
   $: {
-    newRequirementWeight.groupRequirementId = groupRequirementId;
-    defaultRequirementWeight.groupRequirementId = groupRequirementId;
-  }
-
-  $: {
-    groupRequirement.id = params.id;
+    params.id;
     checkAndLoadGroupRequirement();
-  };
-
-  $: _generateEqualGroups = Number(groupRequirement.generateEqualGroups);
+  }
 
   onMount(() => {
     checkAndLoadGroupRequirement();
     getAllSkills();
+    newRequirementWeight.groupRequirementId = params.id;
+    defaultRequirementWeight.groupRequirementId = params.id;
   });
-
-  function handleRadioChange(e) {
-    groupRequirement.generateEqualGroups = Boolean(_generateEqualGroups);
-  }
 
   function checkAndLoadGroupRequirement() {
     if (params.id == undefined) editMode = false;
@@ -68,7 +64,10 @@
   }
 
   function addNewRequirementWeight() {
-    if (newRequirementWeight.skillId < 1 || newRequirementWeight.weight < 1) {
+    if (
+      newRequirementWeight.skill === null ||
+      newRequirementWeight.weight < 1
+    ) {
       Swal.fire("Bitte reguläre Werte für Skills und deren Gewichtung wählen");
       return;
     }
@@ -76,33 +75,33 @@
       ...groupRequirement.weightRequests,
       newRequirementWeight,
     ];
-    newRequirementWeight = defaultRequirementWeight;
+    newRequirementWeight = Object.assign({}, defaultRequirementWeight);
   }
 
   function getGroupRequirementById() {
     axios
       .get(`http://localhost:8080/grouprequirements/${params.id}`)
       .then((response) => {
-        let reqWeight = defaultRequirementWeight;
-
+        let reqWeight = Object.assign({}, defaultRequirementWeight);
         groupRequirement.id = response.data.id;
         groupRequirement.name = response.data.name;
         groupRequirement.groupSize = response.data.groupSize;
         groupRequirement.generateEqualGroups =
           response.data.generateEqualGroups;
-        groupRequirement.weightRequests = response.data.requirementWeights;
         groupRequirement.courseIds = response.data.courses;
         groupRequirement.weightRequests = [];
-        //Foreach is required so that object skill and groupRequirement can be transfered to skillId and groupRequirementId for postobject
+        //Foreach is required so that object skill and groupRequirement can be transfered to groupRequirementId for postobject
         response.data.requirementWeights.forEach((reqWeightResp) => {
-          reqWeight.id = reqWeightResp.id;
-          reqWeight.groupRequirementId = reqWeightResp.groupRequirement;
-          reqWeight.skillId = reqWeightResp.skill;
-          reqWeight.weight = reqWeightResp.weight;
+          let temp = {
+            id: reqWeightResp.id,
+            groupRequirementId: reqWeightResp.groupRequirement,
+            skill: reqWeightResp.skill,
+            weight: reqWeightResp.weight,
+          };
           //Fill List with values
           groupRequirement.weightRequests = [
             ...groupRequirement.weightRequests,
-            weight,
+            temp,
           ];
         });
         editMode = true;
@@ -173,28 +172,33 @@
   <table class="table">
     <thead>
       <tr>
-        <th scope="col">Id</th>
         <th scope="col">Fähigkeit</th>
         <th scope="col">Gewichtung</th>
       </tr>
     </thead>
     <tbody>
-      {#each groupRequirement.requirementWeights as requirementWeight, index}
+      {#each groupRequirement.weightRequests as requirementWeight}
         <tr>
-          <td width="10">{index}</td>
           <td width="300" colspan="1"
-            >{skills.find((o) => o.id == requirementWeight.skillId).name} ({requirementWeight.skillId})</td
+            >{requirementWeight.skill.name} ({requirementWeight.skill.id})</td
           >
-          <td width="300" colspan="1">{requirementWeight.weight}</td>
+          <td width="300" colspan="1">
+            <input
+              type="text"
+              class="form-control"
+              bind:value={requirementWeight.weight}
+            />
+          </td>
         </tr>
       {/each}
       <tr style="color: grey">
-        <td width="10" />
         <td width="300" colspan="1">
-          <select bind:value={newRequirementWeight.skillId} class="form-select">
-            <option value="-1">Auswählen</option>
-            {#each skills as skill}
-              <option value={skill.id}>{skill.name} ({skill.id})</option>
+          <select bind:value={newRequirementWeight.skill} class="form-select">
+            <option value="null">Auswählen</option>
+            {#each skills as skillOption}
+              <option value={skillOption}
+                >{skillOption.name} ({skillOption.id})</option
+              >
             {/each}
           </select>
         </td>
@@ -215,34 +219,22 @@
   <h6>
     Gruppeneinteilung ausgeglichen (Heterogen) oder unausgeglichen (Homogen)
   </h6>
-  <div class="form-check">
-    <input
-      class="form-check-input"
-      type="radio"
-      name="flexRadioDefault"
-      value={1}
-      on:bind={_generateEqualGroups}
-      on:change={handleRadioChange}
-      checked
-    />
-    <label class="form-check-label" for="flexRadioHeterogen">Heterogen</label>
+  <div class="form-check mb-3">
+    <select
+      bind:value={groupRequirement.generateEqualGroups}
+      class="form-select"
+    >
+      {#each groupModi as modus}
+        <option value={modus.value}>{modus.name}</option>
+      {/each}
+    </select>
   </div>
-  <div class="form-check">
-    <input
-      class="form-check-input"
-      type="radio"
-      name="flexRadioDefault"
-      value={0}
-      on:bind={_generateEqualGroups}
-      on:change={handleRadioChange}
-    />
-    <label class="form-check-label" for="flexRadioHomogen">Homogen</label>
+  <div class="mb-3">
+    <button on:click={saveGroupRequirement} class="btn btn-primary">
+      Speichern
+    </button>
+    <a class="btn btn-danger" href={`?#/Anforderungskataloge/`} role="button">
+      Zurück
+    </a>
   </div>
-  <br />
-  <button on:click={saveGroupRequirement} class="btn btn-primary">
-    Speichern
-  </button>
-  <a class="btn btn-danger" href={`#/Anforderungskataloge/`} role="button">
-    Zurück
-  </a>
 </form>

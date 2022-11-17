@@ -71,7 +71,7 @@
               <li class="list-inline-item">
                 <a
                   class="btn btn-primary btn-sm rounded-2"
-                  href={`#/Faehigkeiten/${skill.id}/Edit`}
+                  href={`?#/Faehigkeiten/${skill.id}/Edit`}
                   role="button"
                   title="Edit"
                 >

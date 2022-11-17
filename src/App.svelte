@@ -10,7 +10,7 @@
 <main>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#/Kurse">Kurse</a>
+      <a class="navbar-brand" href="?#/Kurse">Kurse</a>
       <button
         class="navbar-toggler"
         type="button"
@@ -25,16 +25,16 @@
       <div class="collapse navbar-collapse" id="navbarNavDropdown">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link" href="#/Anforderungskataloge"
+            <a class="nav-link" href="?#/Anforderungskataloge"
               >Anforderungskataloge</a
             >
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#/Personen">Personen</a>
+            <a class="nav-link" href="?#/Personen">Personen</a>
           </li>
 
           <li class="nav-item">
-            <a class="nav-link" href="#/Faehigkeiten"
+            <a class="nav-link" href="?#/Faehigkeiten"
               >Fähigkeiten</a
             >
           </li>
