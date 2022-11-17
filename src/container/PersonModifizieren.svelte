@@ -116,4 +116,14 @@
     />
   </div>
   <button on:click={savePerson} class="btn btn-primary"> Speichern </button>
+  {#if editMode}
+    <a
+      class="btn btn-primary btn-sm rounded-2"
+      href={`#//Personen/${personId}/Faehigkeiten/Bewertung`}
+      role="button"
+      title="Edit"
+    >
+      Fähigkeitsbewertung durchführen
+    </a>
+  {/if}
 </form>
