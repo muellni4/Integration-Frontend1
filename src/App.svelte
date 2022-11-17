@@ -1,7 +1,6 @@
 <script>
   import Header from "./components/Header.svelte";
   import Footer from "./components/Footer.svelte";
-  import Button from "./Forms/Button.svelte";
   import Router from "svelte-spa-router";
   import routes from "./routes";
 </script>
