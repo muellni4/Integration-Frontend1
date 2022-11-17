@@ -39,7 +39,7 @@
 </script>
 
 <div class="container mt-3">
-  <h1 class="mt-3">Anforderungskatalog</h1>
+  <h1 class="mt-3">Anforderungskataloge</h1>
   <a
     href="#/Anforderungskataloge/Neu"
     title="Create"

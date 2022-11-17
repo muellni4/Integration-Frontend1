@@ -51,6 +51,7 @@
         <th scope="col">ID</th>
         <th scope="col">Name</th>
         <th scope="col">Kurs aktiv?</th>
+        <th scope="col" />
       </tr>
     </thead>
     <tbody>
@@ -63,7 +64,11 @@
             {course.name}
           </td>
           <td>
-            {course.courseActive}
+            {#if (course.courseActive == undefined || course.courseActive)}
+              Aktiv
+            {:else}
+              Deaktiviert
+            {/if}
           </td>
           <td>
             <ul class="list-inline-item">

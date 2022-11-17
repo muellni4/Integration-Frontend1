@@ -52,6 +52,7 @@
         <th scope="col">Name</th>
         <th scope="col">E-Mail</th>
         <th scope="col">Zhaw-ID</th>
+        <th scope="col" />
       </tr>
     </thead>
     <tbody>

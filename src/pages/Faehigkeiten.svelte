@@ -51,6 +51,7 @@
         <th scope="col">ID</th>
         <th scope="col">Name</th>
         <th scope="col">Beschreibung</th>
+        <th scope="col" />
       </tr>
     </thead>
     <tbody>
