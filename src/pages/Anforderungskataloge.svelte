@@ -45,7 +45,7 @@
     title="Create"
     role="button"
     class="btn btn-success btn-sm rounded-2 mb-3"
-    ><i class="bi bi-plus-square align-self-center" />Katalog erstellen</a
+    ><i class="bi bi-plus-square align-self-center" /> Katalog erstellen</a
   >
   <table class="table m-0 table-hover">
     <thead class="table-dark">

@@ -11,7 +11,7 @@
     id: -1,
     name: "",
     email: "",
-    zhawId: -1,
+    zhawId: undefined,
     courseIds: [],
   };
 
