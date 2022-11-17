@@ -25,17 +25,17 @@
       <div class="collapse navbar-collapse" id="navbarNavDropdown">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link" href="#/anforderungskatalog"
+            <a class="nav-link" href="#/Anforderungskataloge"
               >Anforderungskataloge</a
             >
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#/personen">Personen</a>
+            <a class="nav-link" href="#/Personen">Personen</a>
           </li>
 
           <li class="nav-item">
-            <a class="nav-link" href="#/faehigkeitsbewertung"
-              >Fähigkeitsbewertung</a
+            <a class="nav-link" href="#/Faehigkeiten"
+              >Fähigkeiten</a
             >
           </li>
         </ul>
