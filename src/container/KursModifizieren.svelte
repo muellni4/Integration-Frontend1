@@ -4,7 +4,7 @@
   import Swal from "sweetalert2";
   import Group from "./Group.svelte";
 
-  export let courseId;
+  export let params = {};
 
   let editMode = true;
 
@@ -28,7 +28,7 @@
   };
 
   $: {
-    course.id = courseId;
+    course.id = params.id;
     checkAndLoadCourse();
   }
 
@@ -39,7 +39,7 @@
   });
 
   function checkAndLoadCourse() {
-    if (courseId == undefined) editMode = false;
+    if (params.id == undefined) editMode = false;
     else {
       getCourseById();
       getAllAttendeesOfCourse();
@@ -61,7 +61,7 @@
 
   function getAllAttendeesOfCourse() {
     axios
-      .get(`http://localhost:8080/courses/${courseId}/persons`)
+      .get(`http://localhost:8080/courses/${params.id}/persons`)
       .then((response) => {
         courseAttendees = response.data;
       });
@@ -69,7 +69,7 @@
 
   function getCourseById() {
     axios
-      .get(`http://localhost:8080/courses/${courseId}`)
+      .get(`http://localhost:8080/courses/${params.id}`)
       .then((response) => {
         course.id = response.data.id;
         course.name = response.data.name;
@@ -105,7 +105,7 @@
     axios.post("http://localhost:8080/courses/", course).then((response) => {
       let id = response.data;
       Swal.fire(`Kurs erstellt (Id: ${id})`);
-      courseId = id;
+      params.id = id;
     });
   }
 
@@ -122,7 +122,7 @@
 
   function saveAttendees() {
     axios
-      .put(`http://localhost:8080/courses/${courseId}/persons`, newAttendees)
+      .put(`http://localhost:8080/courses/${params.id}/persons`, newAttendees)
       .then((response) => {
         let id = response.data;
         Swal.fire(`Kurs (${id}) aktualisiert`);
@@ -131,7 +131,7 @@
 
   function generateGroups() {
     axios
-      .post(`http://localhost:8080/courses/${courseId}/groups`)
+      .post(`http://localhost:8080/courses/${params.id}/groups`)
       .then((response) => {
         groupCompositions = response.data;
         Swal.fire(`Gruppen wurden generiert`);

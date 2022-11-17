@@ -3,7 +3,7 @@
   import { onMount } from "svelte";
   import Swal from "sweetalert2";
 
-  export let grouprequirementId;
+  export let params = {};
 
   let editMode = true;
 
@@ -38,9 +38,9 @@
   }
 
   $: {
-    groupRequirement.id = groupRequirementId;
+    groupRequirement.id = params.id;
     checkAndLoadGroupRequirement();
-  }
+  };
 
   $: _generateEqualGroups = Number(groupRequirement.generateEqualGroups);
 
@@ -54,7 +54,7 @@
   }
 
   function checkAndLoadGroupRequirement() {
-    if (groupRequirementId == undefined) editMode = false;
+    if (params.id == undefined) editMode = false;
     else {
       getGroupRequirementById();
       editMode = true;
@@ -81,7 +81,7 @@
 
   function getGroupRequirementById() {
     axios
-      .get(`http://localhost:8080/grouprequirements/${grouprequirementId}`)
+      .get(`http://localhost:8080/grouprequirements/${params.id}`)
       .then((response) => {
         let reqWeight = defaultRequirementWeight;
 
@@ -130,7 +130,7 @@
       .then((response) => {
         let id = response.data;
         Swal.fire(`Anforderungskatalog erstellt (Id: ${id})`);
-        groupRequirementId = id;
+        params.id = id;
       });
   }
 

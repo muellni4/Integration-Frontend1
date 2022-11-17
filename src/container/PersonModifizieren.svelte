@@ -1,10 +1,9 @@
 <script>
   import axios from "axios";
   import { onMount } from "svelte";
-  import { pop } from "svelte-spa-router";
   import Swal from "sweetalert2";
 
-  export let personId;
+  export let params = {};
 
   let editMode = true;
 
@@ -17,7 +16,7 @@
   };
 
   $: {
-    person.id = personId;
+    person.id = params.id;
     checkAndLoadPerson();
   }
 
@@ -26,7 +25,7 @@
   });
 
   function checkAndLoadPerson() {
-    if (personId == undefined) editMode = false;
+    if (params.id == undefined) editMode = false;
     else {
       getPersonById();
       editMode = true;
@@ -35,7 +34,7 @@
 
   function getPersonById() {
     axios
-      .get(`http://localhost:8080/persons/${personId}`)
+      .get(`http://localhost:8080/persons/${params.id}`)
       .then((response) => {
         person = response.data;
         editMode = true;
@@ -70,7 +69,7 @@
     axios.post("http://localhost:8080/persons/", person).then((response) => {
       let id = response.data.id;
       Swal.fire(`Person erstellt (Id: ${id})`);
-      personId = id;
+      params.id = id;
     });
   }
 
@@ -121,7 +120,7 @@
   {#if editMode}
     <a
       class="btn btn-primary btn-sm rounded-2"
-      href={`#//Personen/${personId}/Faehigkeiten/Bewertung`}
+      href={`#//Personen/${params.id}/Faehigkeiten/Bewertung`}
       role="button"
     >
       Fähigkeitsbewertung durchführen

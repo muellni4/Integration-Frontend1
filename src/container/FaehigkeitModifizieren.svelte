@@ -2,8 +2,8 @@
   import axios from "axios";
   import { onMount } from "svelte";
   import Swal from "sweetalert2";
-
-  export let skillId;
+  
+  export let params = {};
 
   let editMode = true;
 
@@ -14,7 +14,7 @@
   };
 
   $: {
-    skill.id = skillId;
+    skill.id = params.id;
     checkAndLoadSkill();
   }
 
@@ -23,7 +23,7 @@
   });
 
   function checkAndLoadSkill() {
-    if (skillId == undefined) editMode = false;
+    if (params.id == undefined) editMode = false;
     else {
       getSkillById();
       editMode = true;
@@ -32,7 +32,7 @@
 
   function getSkillById() {
     axios
-      .get(`http://localhost:8080/skills/${skillId}`)
+      .get(`http://localhost:8080/skills/${params.id}`)
       .then((response) => {
         skill = response.data;
         editMode = true;
@@ -58,7 +58,7 @@
     axios.post("http://localhost:8080/skills/", skill).then((response) => {
       let id = response.data.id;
       Swal.fire(`Fähigkeit erstellt (Id: ${id})`);
-      skillId = id;
+      params.id = id;
     });
   }
 

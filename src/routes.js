@@ -2,22 +2,18 @@
 import Startseite from "./pages/Startseite.svelte";
 
 import Anforderungskataloge from "./pages/Anforderungskataloge.svelte";
-import AnforderungskatalogErstellen from "./pages/AnforderungskatalogErstellen.svelte";
-import AnforderungskatalogBearbeiten from "./pages/AnforderungskatalogBearbeiten.svelte";
 
 import Personen from "./pages/Personen.svelte";
-import PersonErstellen from "./pages/PersonErstellen.svelte";
-import PersonBearbeiten from "./pages/PersonBearbeiten.svelte";
+import PersonModifizieren from "./container/PersonModifizieren.svelte";
 
 import Faehigkeitsbewertung from "./pages/Faehigkeitsbewertung.svelte";
 
 import Faehigkeiten from "./pages/Faehigkeiten.svelte";
-import FaehigkeitErstellen from "./pages/FaehigkeitErstellen.svelte";
-import FaehigkeitBearbeiten from "./pages/FaehigkeitBearbeiten.svelte";
+import FaehigkeitModifizieren from "./container/FaehigkeitModifizieren.svelte";
 
 import Kurse from "./pages/Kurse.svelte";
-import KursErstellen from "./pages/KursErstellen.svelte";
-import KursBearbeiten from "./pages/KursBearbeiten.svelte";
+import KursModifizieren from "./container/KursModifizieren.svelte";
+import AnforderungskatalogModifizieren from "./container/AnforderungskatalogModifizieren.svelte";
 
 // Export the route definition object
 export default {
@@ -26,20 +22,20 @@ export default {
   "/Startseite": Startseite,
 
   "/Anforderungskataloge": Anforderungskataloge,
-  "/Anforderungskataloge/Neu": AnforderungskatalogErstellen,
-  "/Anforderungskataloge/Edit": AnforderungskatalogBearbeiten,
+  "/Anforderungskataloge/Neu": AnforderungskatalogModifizieren,
+  "/Anforderungskataloge/Edit": AnforderungskatalogModifizieren,
 
   "/Personen": Personen,
-  "/Personen/Neu": PersonErstellen,
-  "/Personen/:id/Edit": PersonBearbeiten,
+  "/Personen/Neu": PersonModifizieren,
+  "/Personen/:id/Edit": PersonModifizieren,
 
   "/Personen/:id/Faehigkeiten/Bewertung/": Faehigkeitsbewertung,
 
   "/Faehigkeiten/": Faehigkeiten,
-  "/Faehigkeiten/Neu": FaehigkeitErstellen,
-  "/Faehigkeiten/:id/Edit": FaehigkeitBearbeiten,
+  "/Faehigkeiten/Neu": FaehigkeitModifizieren,
+  "/Faehigkeiten/:id/Edit": FaehigkeitModifizieren,
 
   "/Kurse/": Kurse,
-  "/Kurse/Neu": KursErstellen,
-  "/Kurse/:id/Edit": KursBearbeiten,
+  "/Kurse/Neu": KursModifizieren,
+  "/Kurse/:id/Edit": KursModifizieren,
 };
