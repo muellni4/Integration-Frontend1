@@ -58,7 +58,7 @@
     <tbody>
       {#each personen as person}
         <tr>
-          <td>
+          <td width="10">
             {person.id}
           </td>
           <td>
@@ -70,7 +70,7 @@
           <td>
             {person.zhawId}
           </td>
-          <td>
+          <td align="right">
             <ul class="list-inline-item">
               <li class="list-inline-item">
                 <a

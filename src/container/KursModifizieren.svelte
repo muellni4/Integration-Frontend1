@@ -172,58 +172,60 @@
   </div>
   <div class="mb-3">
     <h6>Teilnehmer</h6>
-    <table class="table m-0 table-hover">
-      <thead class="table-dark">
-        <tr>
-          <th scope="col">ID</th>
-          <th scope="col">Name</th>
-          <th scope="col">E-Mail</th>
-          <th scope="col">Zhaw-ID</th>
-        </tr>
-      </thead>
-      <tbody>
-        {#each courseAttendees as attendee}
+    <div class="mb-3">
+      <table class="table m-0 table-hover">
+        <thead class="table-dark">
           <tr>
-            <td>
-              {attendee.id}
-            </td>
-            <td>
-              {attendee.name}
-            </td>
-            <td>
-              {attendee.email}
-            </td>
-            <td>
-              {attendee.zhawId}
-            </td>
+            <th scope="col">ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">E-Mail</th>
+            <th scope="col">Zhaw-ID</th>
           </tr>
+        </thead>
+        <tbody>
+          {#each courseAttendees as attendee}
+            <tr>
+              <td>
+                {attendee.id}
+              </td>
+              <td>
+                {attendee.name}
+              </td>
+              <td>
+                {attendee.email}
+              </td>
+              <td>
+                {attendee.zhawId}
+              </td>
+            </tr>
+          {/each}
+          {#each newAttendees as newAttendee}
+            <tr>
+              <td>
+                {newAttendee.id}
+              </td>
+              <td>
+                {newAttendee.name}
+              </td>
+              <td>
+                {newAttendee.email}
+              </td>
+              <td>
+                {newAttendee.zhawId}
+              </td>
+            </tr>
+          {/each}
+        </tbody>
+      </table>
+      <select bind:value={selectedPerson} class="form-select">
+        <option value="-1">Auswählen</option>
+        {#each allPersons as person}
+          <option value={person}
+            >[{person.id}] Name: {person.name} Zhaw Id: {person.zhawId}
+          </option>
         {/each}
-        {#each newAttendees as newAttendee}
-          <tr>
-            <td>
-              {newAttendee.id}
-            </td>
-            <td>
-              {newAttendee.name}
-            </td>
-            <td>
-              {newAttendee.email}
-            </td>
-            <td>
-              {newAttendee.zhawId}
-            </td>
-          </tr>
-        {/each}
-      </tbody>
-    </table>
-    <select bind:value={selectedPerson} class="form-select">
-      <option value="-1">Auswählen</option>
-      {#each allPersons as person}
-        <option value={person}
-          >[{person.id}] Name: {person.name} Zhaw Id: {person.zhawId}
-        </option>
-      {/each}
-    </select>
+      </select>
+    </div>
     <button on:click={addAttendee} class="btn btn-primary">
       Teilnehmer Hinzufügen
     </button>
@@ -243,5 +245,10 @@
       </button>
     {/if}
   </div>
-  <button on:click={saveCourse} class="btn btn-primary"> Speichern </button>
+  <div class="mb-3">
+    <button on:click={saveCourse} class="btn btn-primary"> Speichern </button>
+    <a class="btn btn-danger" href={`#/Kurse/`} role="button">
+      Zurück
+    </a>
+  </div>
 </form>

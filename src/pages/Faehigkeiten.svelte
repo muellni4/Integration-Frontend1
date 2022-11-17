@@ -51,13 +51,13 @@
         <th scope="col">ID</th>
         <th scope="col">Name</th>
         <th scope="col">Beschreibung</th>
-        <th scope="col" />
+        <th scope="col"/>
       </tr>
     </thead>
     <tbody>
       {#each skills as skill}
         <tr>
-          <td>
+          <td width="10">
             {skill.id}
           </td>
           <td>
@@ -66,7 +66,7 @@
           <td>
             {skill.description}
           </td>
-          <td>
+          <td align="right">
             <ul class="list-inline-item">
               <li class="list-inline-item">
                 <a

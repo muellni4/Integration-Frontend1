@@ -57,7 +57,7 @@
     <tbody>
       {#each courses as course}
         <tr>
-          <td>
+          <td width="10">
             {course.id}
           </td>
           <td>
@@ -70,7 +70,7 @@
               Deaktiviert
             {/if}
           </td>
-          <td>
+          <td align="right">
             <ul class="list-inline-item">
               <li class="list-inline-item">
                 <a

@@ -59,7 +59,7 @@
     <tbody>
       {#each groupRequirements as groupRequirement}
         <tr>
-          <td>
+          <td width="10">
             {groupRequirement.id}
           </td>
           <td>
@@ -75,7 +75,7 @@
               {/if}
             </p>
           </td>
-          <td>
+          <td align="right">
             <ul class="list-inline-item">
               <li class="list-inline-item">
                 <a

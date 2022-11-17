@@ -181,7 +181,7 @@
     <tbody>
       {#each groupRequirement.requirementWeights as requirementWeight, index}
         <tr>
-          <td width="20">{index}</td>
+          <td width="10">{index}</td>
           <td width="300" colspan="1"
             >{skills.find((o) => o.id == requirementWeight.skillId).name} ({requirementWeight.skillId})</td
           >
@@ -189,7 +189,7 @@
         </tr>
       {/each}
       <tr style="color: grey">
-        <td width="20" />
+        <td width="10" />
         <td width="300" colspan="1">
           <select bind:value={newRequirementWeight.skillId} class="form-select">
             <option value="-1">Auswählen</option>
@@ -242,6 +242,7 @@
   <button on:click={saveGroupRequirement} class="btn btn-primary">
     Speichern
   </button>
+  <a class="btn btn-danger" href={`#/Anforderungskataloge/`} role="button">
+    Zurück
+  </a>
 </form>
-
-<br />

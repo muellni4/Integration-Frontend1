@@ -83,9 +83,13 @@
   </div>
   <div class="mb-3">
     <label for="description" class="form-label">Beschreibung</label>
-    <input type="text" class="form-control" bind:value={skill.description} />
     <textarea type="text" class="form-control" bind:value={skill.description} />
   </div>
 
   <button on:click={saveSkill} class="btn btn-primary"> Speichern </button>
+
+  <a class="btn btn-danger" href={`#/Faehigkeiten/`} role="button"> Zurück </a>
 </form>
+<style>
+	textarea { width: 100%; height: 40vh; min-height: 100px;}
+</style>

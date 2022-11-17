@@ -1,6 +1,7 @@
 <script>
   import axios from "axios";
   import { onMount } from "svelte";
+  import { pop } from "svelte-spa-router";
   import Swal from "sweetalert2";
 
   export let personId;
@@ -116,12 +117,12 @@
     />
   </div>
   <button on:click={savePerson} class="btn btn-primary"> Speichern </button>
+  <a class="btn btn-danger" href={`#/Personen/`} role="button"> Zurück </a>
   {#if editMode}
     <a
       class="btn btn-primary btn-sm rounded-2"
       href={`#//Personen/${personId}/Faehigkeiten/Bewertung`}
       role="button"
-      title="Edit"
     >
       Fähigkeitsbewertung durchführen
     </a>
