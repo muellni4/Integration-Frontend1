@@ -64,7 +64,7 @@
       .get(`http://localhost:8080/courses/${params.id}/persons`)
       .then((response) => {
         courseAttendees = response.data;
-        allPersons = allPersons.filter(x => !courseAttendees.includes(x));
+        allPersons = allPersons.filter((x) => !courseAttendees.includes(x));
       });
   }
 
@@ -308,8 +308,7 @@
       </button>
     {/if}
   </div>
-  <div class="mb-3">
-    <button on:click={saveCourse} class="btn btn-primary"> Speichern </button>
-    <a class="btn btn-danger" href={`#/Kurse/`} role="button"> Zurück </a>
-  </div>
+  <button on:click={saveCourse} class="btn btn-primary"> Speichern </button>
+  <a class="btn btn-danger" href={`#/Kurse/`} role="button"> Zurück </a>
 </form>
+<br />

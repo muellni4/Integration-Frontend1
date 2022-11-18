@@ -130,3 +130,4 @@
     <Faehigkeitsbewertung bind:params />
   {/if}
 </form>
+<br />

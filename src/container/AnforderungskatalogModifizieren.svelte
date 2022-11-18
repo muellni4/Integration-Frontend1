@@ -244,21 +244,16 @@
       </tr>
     </tbody>
   </table>
+  <h6>
+    Gruppeneinteilung ausgeglichen (Heterogen) oder unausgeglichen (Homogen)
+  </h6>
+  <select bind:value={groupRequirement.generateEqualGroups} class="form-select">
+    {#each groupModi as modus}
+      <option value={modus.value}>{modus.name}</option>
+    {/each}
+  </select>
 
-  
-    <h6>
-      Gruppeneinteilung ausgeglichen (Heterogen) oder unausgeglichen (Homogen)
-    </h6>
-    <select
-      bind:value={groupRequirement.generateEqualGroups}
-      class="form-select"
-    >
-      {#each groupModi as modus}
-        <option value={modus.value}>{modus.name}</option>
-      {/each}
-    </select>
-  
-  <div class="mb-3 mt-3">
+  <div class="mt-3">
     <button on:click={saveGroupRequirement} class="btn btn-primary">
       Speichern
     </button>
@@ -267,3 +262,4 @@
     </a>
   </div>
 </form>
+<br />

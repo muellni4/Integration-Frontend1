@@ -2,7 +2,7 @@
   import axios from "axios";
   import { onMount } from "svelte";
   import Swal from "sweetalert2";
-  
+
   export let params = {};
 
   let editMode = true;
@@ -14,6 +14,7 @@
   };
 
   $: {
+    params.id;
     checkAndLoadSkill();
   }
 
@@ -90,6 +91,12 @@
 
   <a class="btn btn-danger" href={`?#/Faehigkeiten/`} role="button"> Zurück </a>
 </form>
+<br />
+
 <style>
-	textarea { width: 100%; height: 40vh; min-height: 100px;}
+  textarea {
+    width: 100%;
+    height: 40vh;
+    min-height: 100px;
+  }
 </style>
