@@ -28,7 +28,6 @@
   };
 
   $: {
-    course.id = params.id;
     checkAndLoadCourse();
   }
 
@@ -36,6 +35,7 @@
     checkAndLoadCourse();
     getAllGroupRequirements();
     getAllPersons();
+    course.id = params.id;
   });
 
   function checkAndLoadCourse() {

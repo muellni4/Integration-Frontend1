@@ -29,7 +29,7 @@ export default {
   "/Personen/Neu": PersonModifizieren,
   "/Personen/:id/Edit": PersonModifizieren,
 
-  "/Personen/:id/Faehigkeiten/Bewertung/": Faehigkeitsbewertung,
+  "/Personen/:id/Faehigkeiten/Bewertung": Faehigkeitsbewertung,
 
   "/Faehigkeiten/": Faehigkeiten,
   "/Faehigkeiten/Neu": FaehigkeitModifizieren,

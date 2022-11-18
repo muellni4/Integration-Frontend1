@@ -14,12 +14,12 @@
   };
 
   $: {
-    skill.id = params.id;
     checkAndLoadSkill();
   }
 
   onMount(() => {
     checkAndLoadSkill();
+    skill.id = params.id;
   });
 
   function checkAndLoadSkill() {

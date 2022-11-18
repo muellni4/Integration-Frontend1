@@ -5,8 +5,6 @@
 
   export let params = {};
 
-  let personId;
-
   let skillRatings = [];
 
   let defaultSkillRating = {
@@ -16,7 +14,7 @@
   };
 
   $: {
-    personId = params.id;
+    params.id;
     getSkillRatings();
     getSkillRequiredToBeRated();
   }
@@ -28,25 +26,28 @@
 
   function getSkillRatings() {
     axios
-      .get(`http://localhost:8080/persons/${personId}/skills`)
+      .get(`http://localhost:8080/persons/${params.id}/skills`)
       .then((response) => {
+        console.log(response.data);
         skillRatings = [];
-        let skillRatingInfo = defaultSkillRating;
         response.data.forEach((skillRating) => {
-          skillRatingInfo.id = skillRating.id;
-          skillRatingInfo.rating = skillRating.rating;
-          skillRatingInfo.skill = skillRating.skill;
-          skillRatings = [...skillRatings, skillRatingInfo];
+          let temp = {
+            id: skillRating.id,
+            rating: skillRating.rating,
+            skill: skillRating.skill,
+          };
+          skillRatings = [...skillRatings, temp];
         });
       });
   }
 
   function getSkillRequiredToBeRated() {
     axios
-      .get(`http://localhost:8080/persons/${personId}/skills/rating`)
+      .get(`http://localhost:8080/persons/${params.id}/skills/rating`)
       .then((response) => {
-        let newRating = defaultSkillRating;
+        console.log(response.data);
         response.data.forEach((skill) => {
+          let newRating = Object.assign({}, defaultSkillRating);
           newRating.skill = skill;
           skillRatings = [...skillRatings, newRating];
         });
@@ -54,13 +55,11 @@
   }
 
   function updateSkillRating() {
-    axios
-      .put(`http://localhost:8080/persons/${personId}/skills/`)
-      .then((response) => {
-        Swal.fire(`Bewertung wurde aktualisiert`);
-        getSkillRatings();
-        getSkillRequiredToBeRated();
-      });
+    axios.put(`http://localhost:8080/persons/${params.id}/skills/`).then(() => {
+      Swal.fire(`Bewertung wurde aktualisiert`);
+      getSkillRatings();
+      getSkillRequiredToBeRated();
+    });
   }
 </script>
 

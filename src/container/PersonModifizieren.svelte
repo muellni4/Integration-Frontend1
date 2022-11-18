@@ -2,6 +2,7 @@
   import axios from "axios";
   import { onMount } from "svelte";
   import Swal from "sweetalert2";
+  import Faehigkeitsbewertung from "../pages/Faehigkeitsbewertung.svelte";
 
   export let params = {};
 
@@ -16,12 +17,12 @@
   };
 
   $: {
-    person.id = params.id;
     checkAndLoadPerson();
   }
 
   onMount(() => {
     checkAndLoadPerson();
+    person.id = params.id;
   });
 
   function checkAndLoadPerson() {
@@ -36,6 +37,7 @@
     axios
       .get(`http://localhost:8080/persons/${params.id}`)
       .then((response) => {
+        console.log(response.data);
         person = response.data;
         editMode = true;
       })
@@ -120,10 +122,11 @@
   {#if editMode}
     <a
       class="btn btn-primary btn-sm rounded-2"
-      href={`#//Personen/${params.id}/Faehigkeiten/Bewertung`}
+      href={`?#/Personen/${params.id}/Faehigkeiten/Bewertung`}
       role="button"
     >
       Fähigkeitsbewertung durchführen
     </a>
+    <Faehigkeitsbewertung bind:params />
   {/if}
 </form>
