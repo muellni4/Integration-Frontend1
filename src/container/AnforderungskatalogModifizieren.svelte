@@ -78,11 +78,21 @@
     newRequirementWeight = Object.assign({}, defaultRequirementWeight);
   }
 
+  function deleteRequirementWeight(obj) {
+    groupRequirement.weightRequests = groupRequirement.weightRequests.filter(
+      (value) => value !== obj
+    );
+    if (obj.id > 0) {
+      axios.delete(
+        `http://localhost:8080/grouprequirements/${params.id}/weights/${obj.id}/`
+      );
+    }
+  }
+
   function getGroupRequirementById() {
     axios
       .get(`http://localhost:8080/grouprequirements/${params.id}`)
       .then((response) => {
-        let reqWeight = Object.assign({}, defaultRequirementWeight);
         groupRequirement.id = response.data.id;
         groupRequirement.name = response.data.name;
         groupRequirement.groupSize = response.data.groupSize;
@@ -104,14 +114,12 @@
             temp,
           ];
         });
-        editMode = true;
       })
-      .catch(() => {
-        editMode = false;
-      });
+      .catch(() => {});
   }
 
   function saveGroupRequirement() {
+    console.log(groupRequirement.weightRequests.skills);
     if (editMode) {
       updateGroupRequirement();
     } else {
@@ -172,27 +180,40 @@
   <table class="table">
     <thead>
       <tr>
-        <th scope="col">Fähigkeit</th>
+        <th scope="col" colspan="2">Fähigkeit</th>
         <th scope="col">Gewichtung</th>
+        <th />
       </tr>
     </thead>
     <tbody>
       {#each groupRequirement.weightRequests as requirementWeight}
         <tr>
-          <td width="300" colspan="1"
+          <td width="300" colspan="2"
             >{requirementWeight.skill.name} ({requirementWeight.skill.id})</td
           >
-          <td width="300" colspan="1">
+          <td width="10">
             <input
-              type="text"
+              type="number"
               class="form-control"
+              min="1"
+              max="10"
               bind:value={requirementWeight.weight}
             />
+          </td>
+          <td align="right" width="5">
+            <button
+              class="btn btn-danger btn-sm rounded-2"
+              type="button"
+              on:click={deleteRequirementWeight(requirementWeight)}
+              title="Delete"
+            >
+              <i class="bi bi-dash-square" />
+            </button>
           </td>
         </tr>
       {/each}
       <tr style="color: grey">
-        <td width="300" colspan="1">
+        <td width="300" colspan="2">
           <select bind:value={newRequirementWeight.skill} class="form-select">
             <option value="null">Auswählen</option>
             {#each skills as skillOption}
@@ -202,24 +223,32 @@
             {/each}
           </select>
         </td>
-        <td width="300" colspan="1">
+        <td width="10">
           <input
-            type="text"
+            type="number"
+            min="1"
+            max="10"
             class="form-control"
             bind:value={newRequirementWeight.weight}
           />
         </td>
+        <td>
+          <button
+            on:click={addNewRequirementWeight}
+            class="btn btn-success btn-sm rounded-2"
+            title="Add"
+          >
+            <i class="bi bi-plus-square" />
+          </button>
+        </td>
       </tr>
-      <button on:click={addNewRequirementWeight} class="btn btn-primary">
-        Hinzufügen
-      </button>
     </tbody>
   </table>
 
-  <h6>
-    Gruppeneinteilung ausgeglichen (Heterogen) oder unausgeglichen (Homogen)
-  </h6>
-  <div class="form-check mb-3">
+  
+    <h6>
+      Gruppeneinteilung ausgeglichen (Heterogen) oder unausgeglichen (Homogen)
+    </h6>
     <select
       bind:value={groupRequirement.generateEqualGroups}
       class="form-select"
@@ -228,8 +257,8 @@
         <option value={modus.value}>{modus.name}</option>
       {/each}
     </select>
-  </div>
-  <div class="mb-3">
+  
+  <div class="mb-3 mt-3">
     <button on:click={saveGroupRequirement} class="btn btn-primary">
       Speichern
     </button>
