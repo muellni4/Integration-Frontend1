@@ -2,6 +2,7 @@
   import axios from "axios";
   import { onMount } from "svelte";
   import Swal from "sweetalert2";
+  import { pop } from "svelte-spa-router";
 
   export let params = {};
 
@@ -138,6 +139,7 @@
         let id = response.data;
         Swal.fire(`Anforderungskatalog erstellt (Id: ${id})`);
         params.id = id;
+        window.location.href = `/?#/Anforderungskataloge/${id}/Edit`;
       });
   }
 
@@ -257,9 +259,14 @@
     <button on:click={saveGroupRequirement} class="btn btn-primary">
       Speichern
     </button>
-    <a class="btn btn-danger" href={`?#/Anforderungskataloge/`} role="button">
+    <button
+      on:click={() => {
+        pop();
+      }}
+      class="btn btn-danger"
+    >
       Zurück
-    </a>
+    </button>
   </div>
 </form>
 <br />

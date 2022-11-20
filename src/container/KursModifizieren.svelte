@@ -2,6 +2,7 @@
   import axios from "axios";
   import { onMount } from "svelte";
   import Swal from "sweetalert2";
+  import { pop } from "svelte-spa-router";
   import Group from "./Group.svelte";
 
   export let params = {};
@@ -122,6 +123,7 @@
       let id = response.data;
       Swal.fire(`Kurs erstellt (Id: ${id})`);
       params.id = id;
+      window.location.href = `?#/Kurse/${id}/Edit`;
     });
   }
 
@@ -320,6 +322,13 @@
     {/if}
   </div>
   <button on:click={saveCourse} class="btn btn-primary"> Speichern </button>
-  <a class="btn btn-danger" href={`#/Kurse/`} role="button"> Zurück </a>
+  <button
+    on:click={() => {
+      pop();
+    }}
+    class="btn btn-danger"
+  >
+    Zurück
+  </button>
 </form>
 <br />

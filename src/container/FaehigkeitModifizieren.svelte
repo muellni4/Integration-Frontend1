@@ -1,6 +1,7 @@
 <script>
   import axios from "axios";
   import { onMount } from "svelte";
+  import { pop } from "svelte-spa-router";
   import Swal from "sweetalert2";
 
   export let params = {};
@@ -60,6 +61,7 @@
       let id = response.data.id;
       Swal.fire(`Fähigkeit erstellt (Id: ${id})`);
       params.id = id;
+      window.location.href = `?#/Faehigkeiten/${id}/Edit`;
     });
   }
 
@@ -86,10 +88,15 @@
     <label for="description" class="form-label">Beschreibung</label>
     <textarea type="text" class="form-control" bind:value={skill.description} />
   </div>
-
   <button on:click={saveSkill} class="btn btn-primary"> Speichern </button>
-
-  <a class="btn btn-danger" href={`?#/Faehigkeiten/`} role="button"> Zurück </a>
+  <button
+    on:click={() => {
+      pop();
+    }}
+    class="btn btn-danger"
+  >
+    Zurück
+  </button>
 </form>
 <br />
 

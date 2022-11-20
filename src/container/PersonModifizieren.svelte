@@ -2,6 +2,7 @@
   import axios from "axios";
   import { onMount } from "svelte";
   import Swal from "sweetalert2";
+  import { pop } from "svelte-spa-router";
   import Faehigkeitsbewertung from "../pages/Faehigkeitsbewertung.svelte";
 
   export let params = {};
@@ -72,6 +73,7 @@
       let id = response.data.id;
       Swal.fire(`Person erstellt (Id: ${id})`);
       params.id = id;
+      window.location.href = `?#/Personen/${id}/Edit`;
     });
   }
 
@@ -118,7 +120,14 @@
     />
   </div>
   <button on:click={savePerson} class="btn btn-primary"> Speichern </button>
-  <a class="btn btn-danger" href={`#/Personen/`} role="button"> Zurück </a>
+  <button
+    on:click={() => {
+      pop();
+    }}
+    class="btn btn-danger"
+  >
+    Zurück
+  </button>
   {#if editMode}
     <a
       class="btn btn-primary btn-sm rounded-2"
