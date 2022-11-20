@@ -29,12 +29,14 @@
 
   $: {
     checkAndLoadCourse();
+    getGroups();
   }
 
   onMount(() => {
     checkAndLoadCourse();
     getAllGroupRequirements();
     getAllPersons();
+    getGroups();
     course.id = params.id;
   });
 
@@ -144,12 +146,19 @@
     }
   }
 
+  function getGroups() {
+    axios
+      .get(`http://localhost:8080/courses/${params.id}/groups`)
+      .then((response) => {
+        groupCompositions = response.data;
+      });
+  }
+
   function generateGroups() {
     axios
       .post(`http://localhost:8080/courses/${params.id}/groups`)
       .then((response) => {
         groupCompositions = response.data;
-        console.log(response.data);
         Swal.fire(`Gruppen wurden generiert`);
       });
   }
