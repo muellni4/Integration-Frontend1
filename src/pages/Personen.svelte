@@ -28,7 +28,6 @@
       if (result.isConfirmed) {
         axios.delete(`http://localhost:8080/persons/${objId}`).then(() => {
           Swal.fire("Gelöscht!", "Die Person wurde gelöscht", "Erfolgreich");
-          //Reloads products to force table rebuild
           getPersons();
         });
       }

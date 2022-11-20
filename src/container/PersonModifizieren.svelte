@@ -17,12 +17,13 @@
   };
 
   $: {
+    params.id;
     checkAndLoadPerson();
   }
 
   onMount(() => {
-    checkAndLoadPerson();
     person.id = params.id;
+    checkAndLoadPerson();
   });
 
   function checkAndLoadPerson() {
@@ -37,7 +38,6 @@
     axios
       .get(`http://localhost:8080/persons/${params.id}`)
       .then((response) => {
-        console.log(response.data);
         person = response.data;
         editMode = true;
       })

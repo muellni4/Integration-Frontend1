@@ -98,7 +98,7 @@
       (value) => value.id !== attendee.id
     );
     axios.put(
-      `http://localhost:8080/courses/${params.id}/persons/${id}/remove`
+      `http://localhost:8080/courses/${params.id}/persons/${attendee.id}/remove`
     );
   }
 
@@ -135,12 +135,13 @@
   }
 
   function saveAttendees() {
-    axios
-      .put(`http://localhost:8080/courses/${params.id}/persons`, newAttendees)
-      .then((response) => {
-        let id = response.data;
-        Swal.fire(`Kurs (${id}) aktualisiert`);
-      });
+    if (newAttendees != []) {
+      axios
+        .put(`http://localhost:8080/courses/${params.id}/persons`, newAttendees)
+        .then((response) => {
+          let id = response.data;
+        });
+    }
   }
 
   function generateGroups() {
@@ -148,6 +149,7 @@
       .post(`http://localhost:8080/courses/${params.id}/groups`)
       .then((response) => {
         groupCompositions = response.data;
+        console.log(response.data);
         Swal.fire(`Gruppen wurden generiert`);
       });
   }
