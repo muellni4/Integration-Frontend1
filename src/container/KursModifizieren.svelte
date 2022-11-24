@@ -183,6 +183,15 @@
         Swal.fire(`Gruppen wurden generiert`);
       });
   }
+
+  function showNotificationEmailAdress(attendee) {
+    Swal.fire({
+      text: `${window.location.origin}/?#/Personen/${attendee.id}/Faehigkeiten/Bewertung`,
+      icon: "info",
+      confirmButtonColor: "#3085d6",
+      confirmButtonText: "Ok",
+    });
+  }
 </script>
 
 <h1>Kursinformationen</h1>
@@ -221,6 +230,7 @@
             <th scope="col">Name</th>
             <th scope="col">E-Mail</th>
             <th scope="col">Zhaw-ID</th>
+            <th scope="col">Rate link</th>
             <th scope="col" />
           </tr>
         </thead>
@@ -238,6 +248,14 @@
               </td>
               <td>
                 {attendee.zhawId}
+              </td>
+              <td>
+                <button
+                  on:click={showNotificationEmailAdress(attendee)}
+                  class="btn btn-primary"
+                >
+                  Anzeigen
+                </button>
               </td>
               <td align="right">
                 <ul class="list-inline-item">
@@ -278,6 +296,14 @@
               </td>
               <td>
                 {newAttendee.zhawId}
+              </td>
+              <td>
+                <button
+                  on:click={showNotificationEmailAdress(newAttendee)}
+                  class="btn btn-primary"
+                >
+                  Anzeigen
+                </button>
               </td>
               <td align="right">
                 <ul class="list-inline-item">
