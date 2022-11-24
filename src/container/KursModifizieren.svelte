@@ -230,7 +230,7 @@
             <th scope="col">Name</th>
             <th scope="col">E-Mail</th>
             <th scope="col">Zhaw-ID</th>
-            <th scope="col">Rate link</th>
+            <th scope="col">Bewertungslink</th>
             <th scope="col" />
           </tr>
         </thead>
