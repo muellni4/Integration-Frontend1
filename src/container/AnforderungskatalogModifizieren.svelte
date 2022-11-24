@@ -13,7 +13,7 @@
     { name: "Homogen", value: false },
   ];
 
-  let skills = [];
+  let skillsCurrentlyNotUsed = [];
 
   let groupRequirement = {
     id: -1,
@@ -45,7 +45,7 @@
 
   onMount(() => {
     checkAndLoadGroupRequirement();
-    getAllSkills();
+    getAllSkillsNotUsedByGroupRequirement();
     newRequirementWeight.groupRequirementId = params.id;
     defaultRequirementWeight.groupRequirementId = params.id;
   });
@@ -58,13 +58,27 @@
     }
   }
 
-  function getAllSkills() {
-    axios.get("http://localhost:8080/skills/").then((response) => {
-      skills = response.data;
-    });
+  function getAllSkillsNotUsedByGroupRequirement() {
+    if (params.id > 0) {
+      axios
+        .get(
+          `http://localhost:8080/grouprequirements/${params.id}/skills/addable`
+        )
+        .then((response) => {
+          skillsCurrentlyNotUsed = response.data;
+        });
+    } else {
+      axios
+        .get(
+          `http://localhost:8080/skills`
+        )
+        .then((response) => {
+          skillsCurrentlyNotUsed = response.data;
+        });
+    }
   }
 
-  function addNewRequirementWeight() {
+  function addNewRequirementWeight(skill) {
     if (
       newRequirementWeight.skill === null ||
       newRequirementWeight.weight < 1
@@ -77,6 +91,9 @@
       newRequirementWeight,
     ];
     newRequirementWeight = Object.assign({}, defaultRequirementWeight);
+    skillsCurrentlyNotUsed = skillsCurrentlyNotUsed.filter(
+      (value) => value.id !== skill.id
+    );
   }
 
   function deleteRequirementWeight(obj) {
@@ -84,9 +101,13 @@
       (value) => value !== obj
     );
     if (obj.id > 0) {
-      axios.delete(
-        `http://localhost:8080/grouprequirements/${params.id}/weights/${obj.id}/`
-      );
+      axios
+        .delete(
+          `http://localhost:8080/grouprequirements/${params.id}/weights/${obj.id}/`
+        )
+        .then(() => {
+          skillsCurrentlyNotUsed = [...skillsCurrentlyNotUsed, obj.skill];
+        });
     }
   }
 
@@ -120,7 +141,6 @@
   }
 
   function saveGroupRequirement() {
-    console.log(groupRequirement.weightRequests.skills);
     if (editMode) {
       updateGroupRequirement();
     } else {
@@ -218,7 +238,7 @@
         <td width="300" colspan="2">
           <select bind:value={newRequirementWeight.skill} class="form-select">
             <option value="null">Auswählen</option>
-            {#each skills as skillOption}
+            {#each skillsCurrentlyNotUsed as skillOption}
               <option value={skillOption}
                 >{skillOption.name} ({skillOption.id})</option
               >
@@ -236,7 +256,7 @@
         </td>
         <td>
           <button
-            on:click={addNewRequirementWeight}
+            on:click={addNewRequirementWeight(newRequirementWeight.skill)}
             class="btn btn-success btn-sm rounded-2"
             title="Add"
           >

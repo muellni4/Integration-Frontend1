@@ -11,7 +11,7 @@
 
   let allGroupRequirements = [];
 
-  let allPersons = [];
+  let allPersonsNotAttending = [];
 
   let courseAttendees = [];
 
@@ -36,7 +36,7 @@
   onMount(() => {
     checkAndLoadCourse();
     getAllGroupRequirements();
-    getAllPersons();
+    getAllPersonsNotAttending();
     getGroups();
     course.id = params.id;
   });
@@ -56,35 +56,48 @@
     });
   }
 
-  function getAllPersons() {
-    axios.get(`http://localhost:8080/persons`).then((response) => {
-      allPersons = response.data;
-    });
+  function getAllPersonsNotAttending() {
+    if (params.id > 0) {
+      axios
+        .get(`http://localhost:8080/courses/${params.id}/persons/addable`)
+        .then((response) => {
+          allPersonsNotAttending = response.data;
+        });
+    } else {
+      axios.get(`http://localhost:8080/persons`).then((response) => {
+        allPersonsNotAttending = response.data;
+      });
+    }
   }
 
   function getAllAttendeesOfCourse() {
-    axios
-      .get(`http://localhost:8080/courses/${params.id}/persons`)
-      .then((response) => {
-        courseAttendees = response.data;
-        allPersons = allPersons.filter((x) => !courseAttendees.includes(x));
-      });
+    if (params.id > 0) {
+      axios
+        .get(`http://localhost:8080/courses/${params.id}/persons`)
+        .then((response) => {
+          courseAttendees = response.data;
+        });
+    }
   }
 
   function getCourseById() {
-    axios
-      .get(`http://localhost:8080/courses/${params.id}`)
-      .then((response) => {
-        course.id = response.data.id;
-        course.name = response.data.name;
-        course.courseActive = response.data.courseActive;
-        course.groupRequirementId = response.data.groupRequirement;
-        groupCompositions = response.data.groupCompositions;
-        editMode = true;
-      })
-      .catch(() => {
-        editMode = false;
-      });
+    if (params.id > 0) {
+      axios
+        .get(`http://localhost:8080/courses/${params.id}`)
+        .then((response) => {
+          course.id = response.data.id;
+          course.name = response.data.name;
+          course.courseActive = response.data.courseActive;
+          course.groupRequirementId = response.data.groupRequirement;
+          groupCompositions = response.data.groupCompositions;
+          editMode = true;
+        })
+        .catch(() => {
+          editMode = false;
+        });
+    } else {
+      editMode = false;
+    }
   }
 
   function addAttendee() {
@@ -94,15 +107,20 @@
 
   function removeNewAttendee(newAttendee) {
     newAttendees = newAttendees.filter((value) => value.id !== newAttendee.id);
+    allPersonsNotAttending = [...allPersonsNotAttending, newAttendee];
   }
 
   function removeAttendeeFromCourse(attendee) {
     courseAttendees = courseAttendees.filter(
       (value) => value.id !== attendee.id
     );
-    axios.put(
-      `http://localhost:8080/courses/${params.id}/persons/${attendee.id}/remove`
-    );
+    axios
+      .put(
+        `http://localhost:8080/courses/${params.id}/persons/${attendee.id}/remove`
+      )
+      .then(() => {
+        allPersonsNotAttending = [...allPersonsNotAttending, attendee];
+      });
   }
 
   function saveCourse() {
@@ -111,6 +129,7 @@
     } else {
       createCourse();
     }
+    console.log(newAttendees);
     saveAttendees();
   }
 
@@ -179,12 +198,7 @@
   </div>
   <div class="mb-3">
     <label for="courseActiveInput" class="form-label">Aktiv?</label>
-    <input
-      type="checkbox"
-      class="form-control"
-      id="courseActiveInput"
-      bind:value={course.courseActive}
-    />
+    <input type="checkbox" bind:checked={course.courseActive} />
   </div>
   <div class="mb-3">
     <label for="groupRequirement" class="form-label">Anforderungskatalog</label>
@@ -295,7 +309,7 @@
       </table>
       <select bind:value={selectedPerson} class="form-select">
         <option value="-1">Auswählen</option>
-        {#each allPersons as person}
+        {#each allPersonsNotAttending as person}
           <option value={person}
             >[{person.id}] Name: {person.name} Zhaw Id: {person.zhawId}
           </option>
@@ -307,7 +321,18 @@
     </button>
   </div>
   <div class="mb-3">
-    <h6>Gruppen</h6>
+    <button on:click={saveCourse} class="btn btn-primary"> Speichern </button>
+    <button
+      on:click={() => {
+        pop();
+      }}
+      class="btn btn-danger"
+    >
+      Zurück
+    </button>
+  </div>
+  <div class="mb-3">
+    <h3>Gruppeneinteilung</h3>
     {#if groupCompositions.length}
       <button on:click={generateGroups} class="btn btn-primary">
         Gruppen neu erstellen
@@ -321,14 +346,5 @@
       </button>
     {/if}
   </div>
-  <button on:click={saveCourse} class="btn btn-primary"> Speichern </button>
-  <button
-    on:click={() => {
-      pop();
-    }}
-    class="btn btn-danger"
-  >
-    Zurück
-  </button>
 </form>
 <br />
