@@ -1,6 +1,6 @@
 <header>
   <h1>
-    <img src="/images/cool.jpg" alt="ProjektX Logo" />
+    <img src="/images/favicon.jpeg" alt="GroupFormation Logo" />
   </h1>
 </header>
 

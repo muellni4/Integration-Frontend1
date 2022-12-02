@@ -1,6 +1,5 @@
 <script>
   import Header from "./components/Header.svelte";
-  import Footer from "./components/Footer.svelte";
   import Router from "svelte-spa-router";
   import routes from "./routes";
 </script>
@@ -47,8 +46,6 @@
     <Router {routes} />
   </div>
 </main>
-
-<Footer />
 
 <style>
   main {
