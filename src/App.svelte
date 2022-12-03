@@ -49,7 +49,7 @@
 
 <style>
   main {
-    background-color: #bfefff;
+    background-color: #F4FEED;
     min-height: 1000px;
   }
 </style>
